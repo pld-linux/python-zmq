@@ -94,5 +94,29 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %files -n python3-%{module}
+%dir %{py3_sitedir}/zmq
+%dir %{py3_sitedir}/zmq/core
+%dir %{py3_sitedir}/zmq/devices
+%dir %{py3_sitedir}/zmq/eventloop
+%dir %{py3_sitedir}/zmq/eventloop/platform
+%dir %{py3_sitedir}/zmq/log
+%dir %{py3_sitedir}/zmq/ssh
+%dir %{py3_sitedir}/zmq/utils
+%dir %{py3_sitedir}/zmq/web
+%attr(755,root,root) %{py3_sitedir}/zmq/core/*.so
+%attr(755,root,root) %{py3_sitedir}/zmq/devices/*.so
+%attr(755,root,root) %{py3_sitedir}/zmq/utils/*.so
+%{py3_sitedir}/zmq/*.py
+%{py3_sitedir}/zmq/core/*.py
+%{py3_sitedir}/zmq/devices/*.py
+%{py3_sitedir}/zmq/eventloop/*.py
+%{py3_sitedir}/zmq/eventloop/platform/*.py
+%{py3_sitedir}/zmq/log/*.py
+%{py3_sitedir}/zmq/ssh/*.py
+%{py3_sitedir}/zmq/utils/*.py
+%{py3_sitedir}/zmq/web/*.py
+%{py3_sitedir}/zmq/__pycache__
+%{py3_sitedir}/zmq/*/__pycache__
+%{py3_sitedir}/zmq/*/*/__pycache__
 %{py3_sitedir}/pyzmq-*.egg-info
 
