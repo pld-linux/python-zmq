@@ -89,6 +89,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{py_sitedir}/zmq/utils
 %{py_sitedir}/zmq/utils/*.py[co]
 %attr(755,root,root) %{py_sitedir}/zmq/utils/*.so
+%dir %{py_sitedir}/zmq/web
+%{py_sitedir}/zmq/web/*.py[co]
 %if "%{py_ver}" > "2.4"
 %{py_sitedir}/pyzmq-*.egg-info
 %endif
