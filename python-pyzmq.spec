@@ -15,6 +15,7 @@ BuildRequires:	python-distribute
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	zeromq-devel >= %{version}
+BuildRequires:	python3-devel
 %pyrequires_eq	python-libs
 Requires:	zeromq >= %{version}
 BuildArch:	noarch
@@ -26,21 +27,42 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description -l pl.UTF-8
 Wiązania biblioteki ØMQ dla Pythona.
 
+%package -n python3-%{module}
+Summary:	ØMQ bindings for Python
+Summary(pl.UTF-8):	Wiązania biblioteki ØMQ dla Pythona
+Group:          Development/Languages/Python
+%pyrequires_eq  python3-modules
+Requires:	zeromq >= %{version}
+
+%description -n python3-%{module}
+ØMQ bindings for Python 3.x.
+
 %prep
 %setup -qn %{module}-%{version}
 
 %build
-%{__python} setup.py build
+%{__python} setup.py build --build-base py2
+%{__python3} setup.py build --build-base py3
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install \
+%{__python} setup.py \
+	build --build-base py2 \
+	install \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
+
+%{__python3} setup.py \
+	build --build-base py3 \
+	install \
+	--root=$RPM_BUILD_ROOT \
+	--optimize=2
 
 %py_postclean
 rm -rf $RPM_BUILD_ROOT%{py_sitedir}/zmq/tests
 rm -f $RPM_BUILD_ROOT%{py_sitedir}/zmq/{core,devices,utils}/*.pxd
+rm -rf $RPM_BUILD_ROOT%{py3_sitedir}/zmq/tests
+rm -f $RPM_BUILD_ROOT%{py3_sitedir}/zmq/{core,devices,utils}/*.pxd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -70,3 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 %if "%{py_ver}" > "2.4"
 %{py_sitedir}/pyzmq-*.egg-info
 %endif
+
+%files -n python3-%{module}
+%{py3_sitedir}/pyzmq-*.egg-info
+
