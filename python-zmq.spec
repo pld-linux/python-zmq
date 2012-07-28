@@ -2,7 +2,7 @@
 %define 	module	pyzmq
 Summary:	ØMQ bindings for Python
 Summary(pl.UTF-8):	Wiązania biblioteki ØMQ dla Pythona
-Name:		python-%{module}
+Name:		python-zmq
 Version:	2.2.0
 Release:	1
 License:	GPL v3
@@ -27,14 +27,14 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description -l pl.UTF-8
 Wiązania biblioteki ØMQ dla Pythona.
 
-%package -n python3-%{module}
+%package -n python3-zmq
 Summary:	ØMQ bindings for Python
 Summary(pl.UTF-8):	Wiązania biblioteki ØMQ dla Pythona
 Group:          Development/Languages/Python
 %pyrequires_eq  python3-modules
 Requires:	zeromq >= %{version}
 
-%description -n python3-%{module}
+%description -n python3-zmq
 ØMQ bindings for Python 3.x.
 
 %prep
@@ -95,7 +95,7 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitedir}/pyzmq-*.egg-info
 %endif
 
-%files -n python3-%{module}
+%files -n python3-zmq
 %dir %{py3_sitedir}/zmq
 %dir %{py3_sitedir}/zmq/core
 %dir %{py3_sitedir}/zmq/devices
