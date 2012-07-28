@@ -1,7 +1,7 @@
 # $Revision: 1.1 $
 %define 	module	pyzmq
-Summary:	ØMQ bindings for Python
-Summary(pl.UTF-8):	Wiązania biblioteki ØMQ dla Pythona
+Summary:	Py0MQ - ØMQ bindings for Python
+Summary(pl.UTF-8):	Py0MQ - Wiązania biblioteki ØMQ dla Pythona
 Name:		python-zmq
 Version:	2.2.0
 Release:	1
@@ -18,7 +18,6 @@ BuildRequires:	zeromq-devel >= %{version}
 BuildRequires:	python3-devel
 %pyrequires_eq	python-libs
 Requires:	zeromq >= %{version}
-BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -27,15 +26,33 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description -l pl.UTF-8
 Wiązania biblioteki ØMQ dla Pythona.
 
+%package devel
+Summary:	Header files for Py0MQ
+Summary(pl.UTF-8):	Pliki nagłowkowe dla Py0MQ
+Group:          Development/Languages/Python
+Requires:	%{name} = %{version}-%{release}
+
+%description devel 
+Header files for Py0MQ.
+
 %package -n python3-zmq
-Summary:	ØMQ bindings for Python
-Summary(pl.UTF-8):	Wiązania biblioteki ØMQ dla Pythona
+Summary:	Py0MQ - ØMQ bindings for Python
+Summary(pl.UTF-8):	Py0MQ - Wiązania biblioteki ØMQ dla Pythona
 Group:          Development/Languages/Python
 %pyrequires_eq  python3-modules
 Requires:	zeromq >= %{version}
 
 %description -n python3-zmq
 ØMQ bindings for Python 3.x.
+
+%package -n python3-zmq-devel
+Summary:	Header files for Py0MQ
+Summary(pl.UTF-8):	Pliki nagłowkowe dla Py0MQ
+Group:          Development/Languages/Python
+Requires:	python3-zmq = %{version}-%{release}
+
+%description -n python3-zmq-devel
+Header files for Py0MQ.
 
 %prep
 %setup -qn %{module}-%{version}
@@ -95,7 +112,12 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitedir}/pyzmq-*.egg-info
 %endif
 
+%files devel
+%defattr(644,root,root,755)
+%{py_sitedir}/zmq/utils/*.h
+
 %files -n python3-zmq
+%defattr(644,root,root,755)
 %dir %{py3_sitedir}/zmq
 %dir %{py3_sitedir}/zmq/core
 %dir %{py3_sitedir}/zmq/devices
@@ -122,3 +144,6 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitedir}/zmq/*/*/__pycache__
 %{py3_sitedir}/pyzmq-*.egg-info
 
+%files -n python3-zmq-devel
+%defattr(644,root,root,755)
+%{py3_sitedir}/zmq/utils/*.h
