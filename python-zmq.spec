@@ -76,8 +76,6 @@ rm -rf $RPM_BUILD_ROOT
 	--optimize=2
 
 %py_postclean
-rm -rf $RPM_BUILD_ROOT%{py_sitedir}/zmq/tests
-rm -rf $RPM_BUILD_ROOT%{py3_sitedir}/zmq/tests
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -109,6 +107,8 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitedir}/zmq/utils/*.pxd
 %dir %{py_sitedir}/zmq/web
 %{py_sitedir}/zmq/web/*.py[co]
+%dir %{py_sitedir}/zmq/tests
+%{py_sitedir}/zmq/tests/*.py[co]
 %if "%{py_ver}" > "2.4"
 %{py_sitedir}/pyzmq-*.egg-info
 %endif
@@ -128,6 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{py3_sitedir}/zmq/ssh
 %dir %{py3_sitedir}/zmq/utils
 %dir %{py3_sitedir}/zmq/web
+%dir %{py3_sitedir}/zmq/tests
 %attr(755,root,root) %{py3_sitedir}/zmq/core/*.so
 %attr(755,root,root) %{py3_sitedir}/zmq/devices/*.so
 %attr(755,root,root) %{py3_sitedir}/zmq/utils/*.so
@@ -143,6 +144,7 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitedir}/zmq/utils/*.py
 %{py3_sitedir}/zmq/utils/*.pxd
 %{py3_sitedir}/zmq/web/*.py
+%{py3_sitedir}/zmq/tests/*.py
 %{py3_sitedir}/zmq/__pycache__
 %{py3_sitedir}/zmq/*/__pycache__
 %{py3_sitedir}/zmq/*/*/__pycache__
