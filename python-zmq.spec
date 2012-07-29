@@ -1,6 +1,7 @@
 # $Revision: 1.1 $
 %define 	module	pyzmq
-Summary:	Py0MQ - ØMQ bindings for Python
+Summary:	Py0MQ - 0MQ bindings for Python
+Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python
 Summary(pl.UTF-8):	Py0MQ - Wiązania biblioteki ØMQ dla Pythona
 Name:		python-zmq
 Version:	2.2.0
@@ -12,15 +13,18 @@ Source0:	https://github.com/downloads/zeromq/pyzmq/%{module}-%{version}.tar.gz
 URL:		http://github.com/zeromq/pyzmq
 BuildRequires:	python-devel
 BuildRequires:	python-distribute
+BuildRequires:	python3-devel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	zeromq-devel >= %{version}
-BuildRequires:	python3-devel
 %pyrequires_eq	python-libs
 Requires:	zeromq >= %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
+0MQ bindings for Python.
+
+%description -l en.UTF-8
 ØMQ bindings for Python.
 
 %description -l pl.UTF-8
@@ -29,16 +33,16 @@ Wiązania biblioteki ØMQ dla Pythona.
 %package devel
 Summary:	Header files for Py0MQ
 Summary(pl.UTF-8):	Pliki nagłowkowe dla Py0MQ
-Group:          Development/Languages/Python
+Group:		Development/Languages/Python
 Requires:	%{name} = %{version}-%{release}
 
-%description devel 
+%description devel
 Header files for Py0MQ.
 
 %package -n python3-zmq
 Summary:	Py0MQ - ØMQ bindings for Python
 Summary(pl.UTF-8):	Py0MQ - Wiązania biblioteki ØMQ dla Pythona
-Group:          Development/Languages/Python
+Group:		Development/Languages/Python
 %pyrequires_eq  python3-modules
 Requires:	zeromq >= %{version}
 
@@ -48,7 +52,7 @@ Requires:	zeromq >= %{version}
 %package -n python3-zmq-devel
 Summary:	Header files for Py0MQ
 Summary(pl.UTF-8):	Pliki nagłowkowe dla Py0MQ
-Group:          Development/Languages/Python
+Group:		Development/Languages/Python
 Requires:	python3-zmq = %{version}-%{release}
 
 %description -n python3-zmq-devel
