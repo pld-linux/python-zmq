@@ -5,7 +5,7 @@ Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python
 Summary(pl.UTF-8):	Py0MQ - Wiązania biblioteki ØMQ dla Pythona
 Name:		python-zmq
 Version:	2.2.0
-Release:	1
+Release:	2
 License:	GPL v3
 Group:		Development/Languages/Python
 Source0:	https://github.com/downloads/zeromq/pyzmq/%{module}-%{version}.tar.gz
