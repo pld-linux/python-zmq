@@ -1,24 +1,25 @@
 # $Revision: 1.1 $
 %define 	module	pyzmq
+%define		zeromq_ver	2.2.0
 Summary:	Py0MQ - 0MQ bindings for Python
 Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python
 Summary(pl.UTF-8):	Py0MQ - Wiązania biblioteki ØMQ dla Pythona
 Name:		python-zmq
-Version:	2.2.0
-Release:	2
+Version:	2.2.0.1
+Release:	1
 License:	GPL v3
 Group:		Development/Languages/Python
 Source0:	https://github.com/downloads/zeromq/pyzmq/%{module}-%{version}.tar.gz
-# Source0-md5:	100b73973d6fb235b8da6adea403566e
+# Source0-md5:	f2f80709e84c8ac72d6671eee645d804
 URL:		http://github.com/zeromq/pyzmq
 BuildRequires:	python-devel
 BuildRequires:	python-distribute
 BuildRequires:	python3-devel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
-BuildRequires:	zeromq-devel >= %{version}
+BuildRequires:	zeromq-devel >= %{zeromq_ver}
 %pyrequires_eq	python-libs
-Requires:	zeromq >= %{version}
+Requires:	zeromq >= %{zeromq_ver}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -101,6 +102,8 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitedir}/zmq/eventloop/*.py[co]
 %dir %{py_sitedir}/zmq/eventloop/platform
 %{py_sitedir}/zmq/eventloop/platform/*.py[co]
+%dir %{py_sitedir}/zmq/green
+%{py_sitedir}/zmq/green/*.py[co]
 %dir %{py_sitedir}/zmq/log
 %{py_sitedir}/zmq/log/*.py[co]
 %dir %{py_sitedir}/zmq/ssh
@@ -128,6 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{py3_sitedir}/zmq/devices
 %dir %{py3_sitedir}/zmq/eventloop
 %dir %{py3_sitedir}/zmq/eventloop/platform
+%dir %{py3_sitedir}/zmq/green
 %dir %{py3_sitedir}/zmq/log
 %dir %{py3_sitedir}/zmq/ssh
 %dir %{py3_sitedir}/zmq/utils
@@ -143,6 +147,7 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitedir}/zmq/devices/*.pxd
 %{py3_sitedir}/zmq/eventloop/*.py
 %{py3_sitedir}/zmq/eventloop/platform/*.py
+%{py3_sitedir}/zmq/green/*.py
 %{py3_sitedir}/zmq/log/*.py
 %{py3_sitedir}/zmq/ssh/*.py
 %{py3_sitedir}/zmq/utils/*.py
