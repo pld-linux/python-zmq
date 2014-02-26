@@ -1,12 +1,12 @@
 # $Revision: 1.1 $
-%define 	module	pyzmq
+%define		module	pyzmq
 %define		zeromq_ver	4.0.3
 Summary:	Py0MQ - 0MQ bindings for Python
 Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python
 Summary(pl.UTF-8):	Py0MQ - Wiązania biblioteki ØMQ dla Pythona
 Name:		python-zmq
 Version:	14.0.1
-Release:	1
+Release:	2
 License:	GPL v3
 Group:		Development/Languages/Python
 Source0:	https://github.com/zeromq/pyzmq/archive/v%{version}.tar.gz
@@ -47,7 +47,7 @@ Summary:	Py0MQ - ØMQ bindings for Python
 Summary(pl.UTF-8):	Py0MQ - Wiązania biblioteki ØMQ dla Pythona
 Group:		Development/Languages/Python
 %pyrequires_eq  python3-modules
-Requires:	zeromq >= %{version}
+Requires:	zeromq >= %{zeromq_ver}
 Requires:	python3-tornado
 
 %description -n python3-zmq
