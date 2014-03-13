@@ -1,16 +1,16 @@
 # $Revision: 1.1 $
 %define		module	pyzmq
-%define		zeromq_ver	4.0.3
+%define		zeromq_ver	4.0.4
 Summary:	Py0MQ - 0MQ bindings for Python
 Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python
 Summary(pl.UTF-8):	Py0MQ - Wiązania biblioteki ØMQ dla Pythona
 Name:		python-zmq
-Version:	14.0.1
-Release:	2
+Version:	14.1.0
+Release:	1
 License:	GPL v3
 Group:		Development/Languages/Python
 Source0:	https://github.com/zeromq/pyzmq/archive/v%{version}.tar.gz
-# Source0-md5:	b8870d76abac0420556e30015ffaf894
+# Source0-md5:	2bd82efad3cbddf5cc7dffe57e46a224
 URL:		http://github.com/zeromq/pyzmq
 BuildRequires:	python-Cython
 BuildRequires:	python-devel
@@ -93,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS.md README.md
 %dir %{py_sitedir}/zmq
 %{py_sitedir}/zmq/*.py[co]
+%dir %{py_sitedir}/zmq/auth
+%{py_sitedir}/zmq/auth/*.py[co]
 %dir %{py_sitedir}/zmq/backend
 %{py_sitedir}/zmq/backend/*.py[co]
 %dir %{py_sitedir}/zmq/backend/cffi
@@ -122,6 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{py_sitedir}/zmq/sugar
 %{py_sitedir}/zmq/sugar/*.py[co]
 %dir %{py_sitedir}/zmq/utils
+%{py_sitedir}/zmq/utils/*.json
 %{py_sitedir}/zmq/utils/*.py[co]
 %attr(755,root,root) %{py_sitedir}/zmq/utils/*.so
 %{py_sitedir}/zmq/utils/*.pxd
@@ -139,6 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS.md README.md
 %dir %{py3_sitedir}/zmq
+%dir %{py3_sitedir}/zmq/auth
 %dir %{py3_sitedir}/zmq/backend
 %dir %{py3_sitedir}/zmq/backend/cffi
 %dir %{py3_sitedir}/zmq/backend/cython
@@ -157,6 +161,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{py3_sitedir}/zmq/devices/*.so
 %attr(755,root,root) %{py3_sitedir}/zmq/utils/*.so
 %{py3_sitedir}/zmq/*.py
+%{py3_sitedir}/zmq/auth/*.py
 %{py3_sitedir}/zmq/backend/*.py
 %{py3_sitedir}/zmq/backend/cffi/*.py
 %{py3_sitedir}/zmq/backend/cython/*.py
@@ -174,6 +179,7 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitedir}/zmq/sugar/*.py
 %{py3_sitedir}/zmq/utils/*.py
 %{py3_sitedir}/zmq/utils/*.pxd
+%{py3_sitedir}/zmq/utils/*.json
 %{py3_sitedir}/zmq/tests/*.py
 %{py3_sitedir}/zmq/__pycache__
 %{py3_sitedir}/zmq/*/__pycache__
