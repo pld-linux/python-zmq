@@ -1,96 +1,128 @@
-# $Revision: 1.1 $
-%define		module	pyzmq
+#
+# Conditional build:
+%bcond_without	python2	# CPython 2.x module
+%bcond_without	python3	# CPython 3.x module
+
+%define		module		pyzmq
 %define		zeromq_ver	4.0.4
-Summary:	Py0MQ - 0MQ bindings for Python
-Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python
-Summary(pl.UTF-8):	Py0MQ - Wiązania biblioteki ØMQ dla Pythona
+Summary:	Py0MQ - 0MQ bindings for Python 2
+Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python 2
+Summary(pl.UTF-8):	Py0MQ - wiązania biblioteki ØMQ dla Pythona 2
 Name:		python-zmq
 Version:	14.1.0
 Release:	1
-License:	GPL v3
+License:	BSD
 Group:		Development/Languages/Python
 Source0:	https://github.com/zeromq/pyzmq/archive/v%{version}.tar.gz
 # Source0-md5:	2bd82efad3cbddf5cc7dffe57e46a224
 URL:		http://github.com/zeromq/pyzmq
-BuildRequires:	python-Cython
-BuildRequires:	python-devel
+%if %{with python2}
+BuildRequires:	python-Cython >= 0.16
+BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	python-distribute
-BuildRequires:	python3-devel
+%endif
+%if %{with python3}
+BuildRequires:	python3-Cython >= 0.16
+BuildRequires:	python3-devel >= 3.2
+%endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	rpmbuild(macros) >= 1.612
 BuildRequires:	zeromq-devel >= %{zeromq_ver}
-%pyrequires_eq	python-libs
-Requires:	zeromq >= %{zeromq_ver}
+Requires:	python-modules >= 1:2.6
 Requires:	python-tornado
+Requires:	zeromq >= %{zeromq_ver}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-0MQ bindings for Python.
+0MQ bindings for Python 2.
 
 %description -l en.UTF-8
-ØMQ bindings for Python.
+ØMQ bindings for Python 2.
 
 %description -l pl.UTF-8
-Wiązania biblioteki ØMQ dla Pythona.
+Wiązania biblioteki ØMQ dla Pythona 2.
 
 %package devel
-Summary:	Header files for Py0MQ
-Summary(pl.UTF-8):	Pliki nagłowkowe dla Py0MQ
+Summary:	Header files for Py0MQ (Python 2 version)
+Summary(pl.UTF-8):	Pliki nagłowkowe dla Py0MQ (wersja dla Pythona 2)
 Group:		Development/Languages/Python
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
-Header files for Py0MQ.
+Header files for Py0MQ (Python 2 version).
+
+%description devel -l pl.UTF-8
+Pliki nagłowkowe dla Py0MQ (wersja dla Pythona 2).
 
 %package -n python3-zmq
-Summary:	Py0MQ - ØMQ bindings for Python
-Summary(pl.UTF-8):	Py0MQ - Wiązania biblioteki ØMQ dla Pythona
+Summary:	Py0MQ - 0MQ bindings for Python 3
+Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python 3
+Summary(pl.UTF-8):	Py0MQ - wiązania biblioteki ØMQ dla Pythona
 Group:		Development/Languages/Python
-%pyrequires_eq  python3-modules
-Requires:	zeromq >= %{zeromq_ver}
+Requires:	python3-modules >= 3.2
 Requires:	python3-tornado
+Requires:	zeromq >= %{zeromq_ver}
 
 %description -n python3-zmq
-ØMQ bindings for Python 3.x.
+0MQ bindings for Python 3.
+
+%description -n python3-zmq -l en.UTF-8
+ØMQ bindings for Python 3.
+
+%description -n python3-zmq -l pl.UTF-8
+Wiązania biblioteki ØMQ dla Pythona 3.
 
 %package -n python3-zmq-devel
-Summary:	Header files for Py0MQ
-Summary(pl.UTF-8):	Pliki nagłowkowe dla Py0MQ
+Summary:	Header files for Py0MQ (Python 3 version)
+Summary(pl.UTF-8):	Pliki nagłowkowe dla Py0MQ (wersja dla Pythona 3)
 Group:		Development/Languages/Python
 Requires:	python3-zmq = %{version}-%{release}
 
 %description -n python3-zmq-devel
-Header files for Py0MQ.
+Header files for Py0MQ (Python 3 version).
+
+%description -n python3-zmq-devel -l pl.UTF-8
+Pliki nagłowkowe dla Py0MQ (wersja dla Pythona 3).
 
 %prep
 %setup -qn %{module}-%{version}
 
 %build
+%if %{with python2}
 %{__python} setup.py build --build-base py2
+%endif
+%if %{with python3}
 %{__python3} setup.py build --build-base py3
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
+%if %{with python2}
 %{__python} setup.py \
 	build --build-base py2 \
 	install \
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
+%endif
 
+%if %{with python3}
 %{__python3} setup.py \
 	build --build-base py3 \
 	install \
-	--root=$RPM_BUILD_ROOT \
-	--optimize=2
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
+%endif
 
 %py_postclean
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%if %{with python2}
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS.md README.md
+%doc AUTHORS.md COPYING.BSD README.md
 %dir %{py_sitedir}/zmq
 %{py_sitedir}/zmq/*.py[co]
 %dir %{py_sitedir}/zmq/auth
@@ -130,62 +162,63 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitedir}/zmq/utils/*.pxd
 %dir %{py_sitedir}/zmq/tests
 %{py_sitedir}/zmq/tests/*.py[co]
-%if "%{py_ver}" > "2.4"
-%{py_sitedir}/pyzmq-*.egg-info
-%endif
+%{py_sitedir}/pyzmq-%{version}-py*.egg-info
 
 %files devel
 %defattr(644,root,root,755)
 %{py_sitedir}/zmq/utils/*.h
+%endif
 
+%if %{with python3}
 %files -n python3-zmq
 %defattr(644,root,root,755)
-%doc AUTHORS.md README.md
+%doc AUTHORS.md COPYING.BSD README.md
 %dir %{py3_sitedir}/zmq
-%dir %{py3_sitedir}/zmq/auth
-%dir %{py3_sitedir}/zmq/backend
-%dir %{py3_sitedir}/zmq/backend/cffi
-%dir %{py3_sitedir}/zmq/backend/cython
-%dir %{py3_sitedir}/zmq/devices
-%dir %{py3_sitedir}/zmq/eventloop
-%dir %{py3_sitedir}/zmq/eventloop/minitornado
-%dir %{py3_sitedir}/zmq/eventloop/minitornado/platform
-%dir %{py3_sitedir}/zmq/green
-%dir %{py3_sitedir}/zmq/green/eventloop
-%dir %{py3_sitedir}/zmq/log
-%dir %{py3_sitedir}/zmq/ssh
-%dir %{py3_sitedir}/zmq/sugar
-%dir %{py3_sitedir}/zmq/utils
-%dir %{py3_sitedir}/zmq/tests
-%attr(755,root,root) %{py3_sitedir}/zmq/backend/cython/*.so
-%attr(755,root,root) %{py3_sitedir}/zmq/devices/*.so
-%attr(755,root,root) %{py3_sitedir}/zmq/utils/*.so
 %{py3_sitedir}/zmq/*.py
+%{py3_sitedir}/zmq/__pycache__
+%dir %{py3_sitedir}/zmq/auth
 %{py3_sitedir}/zmq/auth/*.py
+%dir %{py3_sitedir}/zmq/backend
 %{py3_sitedir}/zmq/backend/*.py
+%dir %{py3_sitedir}/zmq/backend/cffi
 %{py3_sitedir}/zmq/backend/cffi/*.py
+%dir %{py3_sitedir}/zmq/backend/cython
+%attr(755,root,root) %{py3_sitedir}/zmq/backend/cython/*.so
 %{py3_sitedir}/zmq/backend/cython/*.py
 %{py3_sitedir}/zmq/backend/cython/*.pxd
+%dir %{py3_sitedir}/zmq/devices
 %{py3_sitedir}/zmq/devices/*.py
 %{py3_sitedir}/zmq/devices/*.pxd
+%attr(755,root,root) %{py3_sitedir}/zmq/devices/*.so
+%dir %{py3_sitedir}/zmq/eventloop
 %{py3_sitedir}/zmq/eventloop/*.py
+%dir %{py3_sitedir}/zmq/eventloop/minitornado
 %{py3_sitedir}/zmq/eventloop/minitornado/*.py
+%dir %{py3_sitedir}/zmq/eventloop/minitornado/platform
 %{py3_sitedir}/zmq/eventloop/minitornado/platform/*.py
 %{py3_sitedir}/zmq/eventloop/minitornado/platform/__pycache__
+%dir %{py3_sitedir}/zmq/green
 %{py3_sitedir}/zmq/green/*.py
+%dir %{py3_sitedir}/zmq/green/eventloop
 %{py3_sitedir}/zmq/green/eventloop/*.py
+%dir %{py3_sitedir}/zmq/log
 %{py3_sitedir}/zmq/log/*.py
+%dir %{py3_sitedir}/zmq/ssh
 %{py3_sitedir}/zmq/ssh/*.py
+%dir %{py3_sitedir}/zmq/sugar
 %{py3_sitedir}/zmq/sugar/*.py
+%dir %{py3_sitedir}/zmq/utils
+%attr(755,root,root) %{py3_sitedir}/zmq/utils/*.so
 %{py3_sitedir}/zmq/utils/*.py
 %{py3_sitedir}/zmq/utils/*.pxd
 %{py3_sitedir}/zmq/utils/*.json
+%dir %{py3_sitedir}/zmq/tests
 %{py3_sitedir}/zmq/tests/*.py
-%{py3_sitedir}/zmq/__pycache__
 %{py3_sitedir}/zmq/*/__pycache__
 %{py3_sitedir}/zmq/*/*/__pycache__
-%{py3_sitedir}/pyzmq-*.egg-info
+%{py3_sitedir}/pyzmq-%{version}-py*.egg-info
 
 %files -n python3-zmq-devel
 %defattr(644,root,root,755)
 %{py3_sitedir}/zmq/utils/*.h
+%endif
