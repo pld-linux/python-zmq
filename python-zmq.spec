@@ -4,17 +4,17 @@
 %bcond_without	python3	# CPython 3.x module
 
 %define		module		pyzmq
-%define		zeromq_ver	4.0.4
+%define		zeromq_ver	4.1.2
 Summary:	Py0MQ - 0MQ bindings for Python 2
 Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python 2
 Summary(pl.UTF-8):	Py0MQ - wiązania biblioteki ØMQ dla Pythona 2
 Name:		python-zmq
-Version:	14.5.0
+Version:	14.7.0
 Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 Source0:	https://github.com/zeromq/pyzmq/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	d69df0a51a13ba42788351eefe78e7ff
+# Source0-md5:	bb4de52b715923f779d3233446329df0
 URL:		http://github.com/zeromq/pyzmq
 %if %{with python2}
 BuildRequires:	python-Cython >= 0.16
