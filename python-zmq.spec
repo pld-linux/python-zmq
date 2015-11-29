@@ -26,7 +26,7 @@ BuildRequires:	python3-Cython >= 0.16
 BuildRequires:	python3-devel >= 3.2
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.612
+BuildRequires:	rpmbuild(macros) >= 1.710
 BuildRequires:	zeromq-devel >= %{zeromq_ver}
 Requires:	python-modules >= 1:2.6
 Requires:	python-tornado
