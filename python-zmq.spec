@@ -10,7 +10,7 @@ Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python 2
 Summary(pl.UTF-8):	Py0MQ - wiązania biblioteki ØMQ dla Pythona 2
 Name:		python-zmq
 Version:	14.7.0
-Release:	3
+Release:	4
 License:	BSD
 Group:		Development/Languages/Python
 Source0:	https://github.com/zeromq/pyzmq/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -89,29 +89,21 @@ Pliki nagłowkowe dla Py0MQ (wersja dla Pythona 3).
 
 %build
 %if %{with python2}
-%py_build --build-base py2
+%py_build
 %endif
 %if %{with python3}
-%py3_build --build-base py3
+%py3_build
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %if %{with python2}
-%{__python} setup.py \
-	build --build-base py2 \
-	install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py_install
 %endif
 
 %if %{with python3}
-%{__python3} setup.py \
-	build --build-base py3 \
-	install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py3_install
 %endif
 
 %py_postclean
