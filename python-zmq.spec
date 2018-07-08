@@ -9,14 +9,12 @@ Summary:	Py0MQ - 0MQ bindings for Python 2
 Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python 2
 Summary(pl.UTF-8):	Py0MQ - wiązania biblioteki ØMQ dla Pythona 2
 Name:		python-zmq
-Version:	14.7.0
-Release:	7
+Version:	17.0.0
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 Source0:	https://github.com/zeromq/pyzmq/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	bb4de52b715923f779d3233446329df0
-Patch0:		https://github.com/zeromq/pyzmq/commit/659f9211aad1565543e26ef6877456d017c9d5bb.patch
-# Patch0-md5:	2e514d08e78efc17f6214e5ea6c52f3b
+# Source0-md5:	29dcd90cd6e862ce9b4a0e5efd74ada8
 URL:		http://github.com/zeromq/pyzmq
 %if %{with python2}
 BuildRequires:	python-Cython >= 0.16
@@ -88,7 +86,6 @@ Pliki nagłowkowe dla Py0MQ (wersja dla Pythona 3).
 
 %prep
 %setup -qn %{module}-%{version}
-%patch0 -p1
 
 %build
 %if %{with python2}
@@ -130,6 +127,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{py_sitedir}/zmq/backend/cython
 %{py_sitedir}/zmq/backend/cython/*.py[co]
 %{py_sitedir}/zmq/backend/cython/*.pxd
+%{py_sitedir}/zmq/backend/cython/*.pxi
 %attr(755,root,root) %{py_sitedir}/zmq/backend/cython/*.so
 %dir %{py_sitedir}/zmq/devices
 %{py_sitedir}/zmq/devices/*.py[co]
@@ -171,6 +169,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{py3_sitedir}/zmq
 %{py3_sitedir}/zmq/*.py
 %{py3_sitedir}/zmq/__pycache__
+%dir %{py3_sitedir}/zmq/asyncio
+%{py3_sitedir}/zmq/asyncio/*.py
+%dir %{py3_sitedir}/zmq/auth/asyncio
+%{py3_sitedir}/zmq/auth/asyncio/*.py
+%dir %{py3_sitedir}/zmq/tests/asyncio
+%{py3_sitedir}/zmq/tests/asyncio/*.py
 %dir %{py3_sitedir}/zmq/auth
 %{py3_sitedir}/zmq/auth/*.py
 %dir %{py3_sitedir}/zmq/backend
@@ -182,6 +186,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{py3_sitedir}/zmq/backend/cython/*.so
 %{py3_sitedir}/zmq/backend/cython/*.py
 %{py3_sitedir}/zmq/backend/cython/*.pxd
+%{py3_sitedir}/zmq/backend/cython/*.pxi
 %dir %{py3_sitedir}/zmq/devices
 %{py3_sitedir}/zmq/devices/*.py
 %{py3_sitedir}/zmq/devices/*.pxd
