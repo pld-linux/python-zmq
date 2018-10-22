@@ -19,11 +19,12 @@ URL:		http://github.com/zeromq/pyzmq
 %if %{with python2}
 BuildRequires:	python-Cython >= 0.16
 BuildRequires:	python-devel >= 1:2.6
-BuildRequires:	python-distribute
+BuildRequires:	python-setuptools
 %endif
 %if %{with python3}
 BuildRequires:	python3-Cython >= 0.16
 BuildRequires:	python3-devel >= 3.2
+BuildRequires:	python3-setuptools
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.710
