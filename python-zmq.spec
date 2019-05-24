@@ -23,7 +23,7 @@ BuildRequires:	python-setuptools
 %endif
 %if %{with python3}
 BuildRequires:	python3-Cython >= 0.16
-BuildRequires:	python3-devel >= 3.2
+BuildRequires:	python3-devel >= 1:3.2
 BuildRequires:	python3-setuptools
 %endif
 BuildRequires:	rpm-pythonprov
@@ -60,7 +60,7 @@ Summary:	Py0MQ - 0MQ bindings for Python 3
 Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python 3
 Summary(pl.UTF-8):	Py0MQ - wiązania biblioteki ØMQ dla Pythona
 Group:		Development/Languages/Python
-Requires:	python3-modules >= 3.2
+Requires:	python3-modules >= 1:3.2
 Requires:	python3-tornado
 Requires:	zeromq >= %{zeromq_ver}
 
