@@ -1,5 +1,7 @@
 #
 # Conditional build:
+%bcond_without	doc	# Sphinx documentation
+%bcond_with	tests	# unit tests (using network?)
 %bcond_without	python2	# CPython 2.x module
 %bcond_without	python3	# CPython 3.x module
 
@@ -9,27 +11,42 @@ Summary:	Py0MQ - 0MQ bindings for Python 2
 Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python 2
 Summary(pl.UTF-8):	Py0MQ - wiązania biblioteki ØMQ dla Pythona 2
 Name:		python-zmq
-Version:	17.0.0
+Version:	18.1.0
 Release:	1
 License:	BSD
 Group:		Development/Languages/Python
+#Source0Download: https://github.com/zeromq/pyzmq/releases
 Source0:	https://github.com/zeromq/pyzmq/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	29dcd90cd6e862ce9b4a0e5efd74ada8
+# Source0-md5:	c9bf39f68b8dd91c553fa14a8e3aec76
 URL:		http://github.com/zeromq/pyzmq
 %if %{with python2}
-BuildRequires:	python-Cython >= 0.16
-BuildRequires:	python-devel >= 1:2.6
+BuildRequires:	python-Cython >= 0.25
+BuildRequires:	python-devel >= 1:2.7
 BuildRequires:	python-setuptools
+%if %{with tests}
+BuildRequires:	python-gevent
+BuildRequires:	python-pytest
+BuildRequires:	python-tornado
+%endif
 %endif
 %if %{with python3}
-BuildRequires:	python3-Cython >= 0.16
-BuildRequires:	python3-devel >= 1:3.2
+BuildRequires:	python3-Cython >= 0.25
+BuildRequires:	python3-devel >= 1:3.3
 BuildRequires:	python3-setuptools
+%if %{with tests}
+BuildRequires:	python3-gevent
+BuildRequires:	python3-pytest
+BuildRequires:	python3-tornado
+%endif
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.710
+BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	zeromq-devel >= %{zeromq_ver}
-Requires:	python-modules >= 1:2.6
+%if %{with doc}
+BuildRequires:	python3-gevent
+BuildRequires:	sphinx-pdg-3 >= 1.7
+%endif
+Requires:	python-modules >= 1:2.7
 Requires:	python-tornado
 Requires:	zeromq >= %{zeromq_ver}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -60,7 +77,7 @@ Summary:	Py0MQ - 0MQ bindings for Python 3
 Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python 3
 Summary(pl.UTF-8):	Py0MQ - wiązania biblioteki ØMQ dla Pythona
 Group:		Development/Languages/Python
-Requires:	python3-modules >= 1:3.2
+Requires:	python3-modules >= 1:3.3
 Requires:	python3-tornado
 Requires:	zeromq >= %{zeromq_ver}
 
@@ -85,15 +102,32 @@ Header files for Py0MQ (Python 3 version).
 %description -n python3-zmq-devel -l pl.UTF-8
 Pliki nagłowkowe dla Py0MQ (wersja dla Pythona 3).
 
+%package apidocs
+Summary:	API documentation for Py0MQ module
+Summary(pl.UTF-8):	Dokumentacja API modułu Py0MQ
+Group:		Documentation
+
+%description apidocs
+API documentation for Py0MQ module.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API modułu Py0MQ.
+
 %prep
 %setup -qn %{module}-%{version}
 
 %build
 %if %{with python2}
-%py_build
+%py_build %{?with_tests:test}
 %endif
+
 %if %{with python3}
-%py3_build
+%py3_build %{?with_tests:test}
+%endif
+
+%if %{with doc}
+%{__make} -C docs html \
+	SPHINXBUILD=sphinx-build-3
 %endif
 
 %install
@@ -101,13 +135,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %if %{with python2}
 %py_install
+
+%py_postclean
 %endif
 
 %if %{with python3}
 %py3_install
 %endif
-
-%py_postclean
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -222,4 +256,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python3-zmq-devel
 %defattr(644,root,root,755)
 %{py3_sitedir}/zmq/utils/*.h
+%endif
+
+%if %{with doc}
+%files apidocs
+%defattr(644,root,root,755)
+%doc docs/build/html/{_static,api,*.html,*.js}
 %endif
