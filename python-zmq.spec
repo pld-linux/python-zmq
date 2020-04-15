@@ -11,13 +11,13 @@ Summary:	Py0MQ - 0MQ bindings for Python 2
 Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python 2
 Summary(pl.UTF-8):	Py0MQ - wiązania biblioteki ØMQ dla Pythona 2
 Name:		python-zmq
-Version:	18.1.0
-Release:	2
+Version:	19.0.0
+Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://github.com/zeromq/pyzmq/releases
 Source0:	https://github.com/zeromq/pyzmq/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	c9bf39f68b8dd91c553fa14a8e3aec76
+# Source0-md5:	0e722dbb5ab4711af76e66283185940b
 URL:		http://github.com/zeromq/pyzmq
 %if %{with python2}
 BuildRequires:	python-Cython >= 0.25
@@ -152,6 +152,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS.md COPYING.BSD README.md
 %dir %{py_sitedir}/zmq
 %{py_sitedir}/zmq/*.py[co]
+%{py_sitedir}/zmq/*.pxd
 %dir %{py_sitedir}/zmq/auth
 %{py_sitedir}/zmq/auth/*.py[co]
 %dir %{py_sitedir}/zmq/backend
@@ -203,6 +204,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS.md COPYING.BSD README.md
 %dir %{py3_sitedir}/zmq
 %{py3_sitedir}/zmq/*.py
+%{py3_sitedir}/zmq/*.pxd
 %{py3_sitedir}/zmq/__pycache__
 %dir %{py3_sitedir}/zmq/asyncio
 %{py3_sitedir}/zmq/asyncio/*.py
