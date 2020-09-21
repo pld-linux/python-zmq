@@ -1,26 +1,26 @@
 #
 # Conditional build:
 %bcond_without	doc	# Sphinx documentation
-%bcond_with	tests	# unit tests (using network?)
+%bcond_with	tests	# unit tests (using network? and finally hang)
 %bcond_without	python2	# CPython 2.x module
 %bcond_without	python3	# CPython 3.x module
 
 %define		module		pyzmq
-%define		zeromq_ver	4.1.2
+%define		zeromq_ver	4.3.2
 Summary:	Py0MQ - 0MQ bindings for Python 2
 Summary(en.UTF-8):	Py0MQ - ØMQ bindings for Python 2
 Summary(pl.UTF-8):	Py0MQ - wiązania biblioteki ØMQ dla Pythona 2
 Name:		python-zmq
-Version:	19.0.0
+Version:	19.0.2
 Release:	1
 License:	BSD
 Group:		Development/Languages/Python
 #Source0Download: https://github.com/zeromq/pyzmq/releases
 Source0:	https://github.com/zeromq/pyzmq/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	0e722dbb5ab4711af76e66283185940b
+# Source0-md5:	dfffada96ae10d3b0afbaa9b8378433e
 URL:		http://github.com/zeromq/pyzmq
 %if %{with python2}
-BuildRequires:	python-Cython >= 0.25
+BuildRequires:	python-Cython >= 0.29
 BuildRequires:	python-devel >= 1:2.7
 BuildRequires:	python-setuptools
 %if %{with tests}
@@ -30,7 +30,7 @@ BuildRequires:	python-tornado
 %endif
 %endif
 %if %{with python3}
-BuildRequires:	python3-Cython >= 0.25
+BuildRequires:	python3-Cython >= 0.29
 BuildRequires:	python3-devel >= 1:3.3
 BuildRequires:	python3-setuptools
 %if %{with tests}
@@ -43,7 +43,9 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	zeromq-devel >= %{zeromq_ver}
 %if %{with doc}
+BuildRequires:	python3-Cython >= 0.29
 BuildRequires:	python3-gevent
+BuildRequires:	python3-pygments >= 2.4.2
 BuildRequires:	sphinx-pdg-3 >= 1.7
 %endif
 Requires:	python-modules >= 1:2.7
@@ -136,11 +138,14 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python2}
 %py_install
 
+%{__rm} -r $RPM_BUILD_ROOT%{py_sitedir}/zmq/tests
 %py_postclean
 %endif
 
 %if %{with python3}
 %py3_install
+
+%{__rm} -r $RPM_BUILD_ROOT%{py3_sitedir}/zmq/tests
 %endif
 
 %clean
@@ -189,8 +194,6 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitedir}/zmq/utils/*.json
 %{py_sitedir}/zmq/utils/*.py[co]
 %{py_sitedir}/zmq/utils/*.pxd
-%dir %{py_sitedir}/zmq/tests
-%{py_sitedir}/zmq/tests/*.py[co]
 %{py_sitedir}/pyzmq-%{version}-py*.egg-info
 
 %files devel
@@ -210,8 +213,6 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitedir}/zmq/asyncio/*.py
 %dir %{py3_sitedir}/zmq/auth/asyncio
 %{py3_sitedir}/zmq/auth/asyncio/*.py
-%dir %{py3_sitedir}/zmq/tests/asyncio
-%{py3_sitedir}/zmq/tests/asyncio/*.py
 %dir %{py3_sitedir}/zmq/auth
 %{py3_sitedir}/zmq/auth/*.py
 %dir %{py3_sitedir}/zmq/backend
@@ -249,8 +250,6 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitedir}/zmq/utils/*.py
 %{py3_sitedir}/zmq/utils/*.pxd
 %{py3_sitedir}/zmq/utils/*.json
-%dir %{py3_sitedir}/zmq/tests
-%{py3_sitedir}/zmq/tests/*.py
 %{py3_sitedir}/zmq/*/__pycache__
 %{py3_sitedir}/zmq/*/*/__pycache__
 %{py3_sitedir}/pyzmq-%{version}-py*.egg-info
